@@ -1,0 +1,58 @@
+[
+    {
+        "name": "sunspot",
+        "health": 34,
+        "capacitor": 460.0,
+        "charge_rate": 0.0224,
+        "acceleration": 0.000042,
+        "angular_acc": 0.000060,
+        "mass": 53.6,
+        "dimensions": {
+            "semi_length": 21,
+            "semi_width": 7
+        },
+        "thruster_data": [
+            [-18, 5],
+            [-18, -5]
+        ],
+        "thruster_type": 1,
+        "description": "The Sunspot is a decent ship that balances strength, energy capacity and acceleration."
+    },
+    {
+        "name": "boulder",
+        "health": 45,
+        "capacitor": 590.0,
+        "charge_rate": 0.0286,
+        "acceleration": 0.000021,
+        "angular_acc": 0.000051,
+        "mass": 125.2,
+        "dimensions": {
+            "semi_length": 19,
+            "semi_width": 19
+        },
+        "thruster_data": [
+            [-19, 0]
+        ],
+        "thruster_type": 0,
+        "description": "The Boulder is one heavy ship. It is fairly resilient against attack, and has enough space for a powerful reactor and a large capacitor, but its large mass makes it rather sluggish."
+    },
+    {
+        "name": "mayfly",
+        "health": 19,
+        "capacitor": 400.0,
+        "charge_rate": 0.0188,
+        "acceleration": 0.000063,
+        "angular_acc": 0.000087,
+        "mass": 38.8,
+        "dimensions": {
+            "semi_length": 15,
+            "semi_width": 6
+        },
+        "thruster_data": [
+            [-15, 3],
+            [-15, -3]
+        ],
+        "thruster_type": 1,
+        "description": "Being a light weight ship, the Mayfly is capable of accelerating to high velocities quickly, making it a difficult target. However its small size means it can only hold a small reactor and is rather fragile."
+    }
+]

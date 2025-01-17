@@ -1,0 +1,73 @@
+[
+    {
+        "name": "soldier",
+        "health": 21,
+        "capacitor": 570.0,
+        "charge_rate": 0.0462,
+        "acceleration": 0.000018,
+        "angular_acc": 0.000054,
+        "mass": 129.5,
+        "dimensions": {
+            "semi_length": 28,
+            "semi_width": 12
+        },
+        "thruster_data": [
+            [-28, 6],
+            [-28, -6]
+        ],
+        "thruster_type": 0
+    },
+    {
+        "name": "zoomer",
+        "health": 15,
+        "capacitor": 380.0,
+        "charge_rate": 0.0297,
+        "acceleration": 0.000053,
+        "angular_acc": 0.000095,
+        "mass": 45.7,
+        "dimensions": {
+            "semi_length": 22,
+            "semi_width": 7
+        },
+        "thruster_data": [
+            [-22, 0]
+        ],
+        "thruster_type": 0
+    },
+    {
+        "name": "mothership",
+        "health": 64,
+        "capacitor": 900.0,
+        "charge_rate": 0.0711,
+        "acceleration": 0.000006,
+        "angular_acc": 0.000018,
+        "mass": 461.1,
+        "dimensions": {
+            "semi_length": 45,
+            "semi_width": 30
+        },
+        "thruster_data": [
+            [-45, 13],
+            [-45, -13]
+        ],
+        "thruster_type": 0
+    },
+    {
+        "name": "bomber",
+        "health": 35,
+        "capacitor": 860.0,
+        "charge_rate": 0.0546,
+        "acceleration": 0.000009,
+        "angular_acc": 0.000032,
+        "mass": 272.3,
+        "dimensions": {
+            "semi_length": 18,
+            "semi_width": 40
+        },
+        "thruster_data": [
+            [-18, 17],
+            [-18, -17]
+        ],
+        "thruster_type": 1
+    }
+]

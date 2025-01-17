@@ -1,0 +1,74 @@
+[
+    {
+        "name": "radioactive A",
+        "image_id": "proj_1",
+        "damage": 3,
+        "speed": 1.008,
+        "delay": 630,
+        "range": 2450,
+        "power_usage": 28.0
+    },
+    {
+        "name": "explosive A",
+        "image_id": "proj_2",
+        "damage": 5,
+        "speed": 0.823,
+        "delay": 1560,
+        "range": 3800,
+        "power_usage": 55.0
+    },
+    {
+        "name": "plasma A",
+        "image_id": "proj_3",
+        "damage": 2,
+        "speed": 1.445,
+        "delay": 390,
+        "range": 1730,
+        "power_usage": 20.0
+    },
+    {
+        "name": "kinetic",
+        "image_id": "mothership_proj",
+        "damage": 1,
+        "speed": 1.956,
+        "delay": 280,
+        "range": 4120,
+        "power_usage": 11.0
+    },
+    {
+        "name": "plasma B",
+        "image_id": "proj_5",
+        "damage": 12,
+        "speed": 30.367,
+        "delay": 3740,
+        "range": 2860,
+        "power_usage": 194.0
+    },
+    {
+        "name": "radioactive B",
+        "image_id": "soldier_proj",
+        "damage": 4,
+        "speed": 0.772,
+        "delay": 1440,
+        "range": 2050,
+        "power_usage": 25.0
+    },
+    {
+        "name": "plasma C",
+        "image_id": "zoomer_proj",
+        "damage": 2,
+        "speed": 1.634,
+        "delay": 810,
+        "range": 3150,
+        "power_usage": 19.0
+    },
+    {
+        "name": "explosive B",
+        "image_id": "bomber_proj",
+        "damage": 6,
+        "speed": 0.470,
+        "delay": 1830,
+        "range": 6600,
+        "power_usage": 50.0
+    }
+]
