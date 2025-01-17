@@ -1,0 +1,13 @@
+esc to pause/unpause.
+w to accelerate in the direction the ship is facing.
+s to accelerate in the opposite direction.
+a to apply torque in the anti-clockwise direction (turn left).
+d to apply torque in the clockwise direction (turn right).
+hold shift to apply stability assist, killing your rotation. also allows for slow turning.
+x to shoot.
+m to toggle the map.
+c to dock with the space station. must be within 2 kilometers to dock. press c again to undock.
+move your mouse while holding LMB to pan the view.
+v to center view onto ship.
+use mouse scroll wheel to zoom in and out.
+use left ctrl + mouse scroll wheel to zoom in and out of the map.
