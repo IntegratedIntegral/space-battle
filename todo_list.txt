@@ -1,0 +1,12 @@
+List of features to add or change (ordered from highest to lowest priority)
+
+Add ship utilities
+Add more locations
+Add more enemy types
+Add more player ship types
+Come up with a proper name! (I'm bad at naming things)
+Update names for weapons
+Update names for enemies
+Add some kind of background dust effect
+Add sound effects
+Add music
