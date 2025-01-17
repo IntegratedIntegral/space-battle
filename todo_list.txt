@@ -2,6 +2,8 @@ List of features to add or change (ordered from highest to lowest priority)
 
 Add ship utilities
 Add more locations
+Add main menu
+Add save data
 Add more enemy types
 Add more player ship types
 Come up with a proper name! (I'm bad at naming things)
