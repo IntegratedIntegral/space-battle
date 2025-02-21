@@ -25,8 +25,6 @@ class WorldObjects:
 
         self.station = Station(location["station"], self.ships, self.weapons, app.image_loader)
 
-        self.font = pg.font.SysFont("Comic Sans MS", 20)
-
         self.panning = False
 
         self.active_bs = None
