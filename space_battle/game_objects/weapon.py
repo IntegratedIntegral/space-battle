@@ -1,5 +1,5 @@
 class Weapon:
-    def __init__(self, name, damage, speed, delay, dist, power_usage, sprite):
+    def __init__(self, name, damage, speed, delay, dist, power_usage, mass, sprite):
         self.name = name
         self.damage = damage
         self.speed = speed
@@ -7,5 +7,6 @@ class Weapon:
         self.range = dist
         self.time = dist / speed #time (also in milliseconds) before projectile despawns
         self.power_usage = power_usage
+        self.mass = mass #mass of projectile
 
         self.template_image = sprite
