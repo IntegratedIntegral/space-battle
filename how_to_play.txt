@@ -6,7 +6,7 @@ d to apply torque in the clockwise direction (turn right).
 hold shift to apply stability assist, killing your rotation. also allows for slow turning.
 x to shoot.
 m to toggle the map.
-c to dock with the space station. must be within 2 kilometers to dock. press c again to undock.
+c to dock with the space station. must be within 1500 meters to dock. press c again to undock.
 move your mouse while holding LMB to pan the view.
 v to center view onto ship.
 use mouse scroll wheel to zoom in and out.
