@@ -89,6 +89,9 @@ class Ship:
             self.projectiles.append(Proj(self)) #spawn projectile
             self.shoot_cool_down = self.weapon.delay
             self.capacitor -= self.weapon.power_usage
+            
+            #recoil
+            self.vel -= self.weapon.speed * self.weapon.mass / self.mass * self.dir_vec
 
     def take_damage(self, damage):
         self.health = max(self.health - damage, 0)
