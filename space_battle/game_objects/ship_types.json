@@ -15,6 +15,10 @@
             [-18, 5],
             [-18, -5]
         ],
+        "reverse_thruster_data": [
+            [-2, 5],
+            [-2, -5]
+        ],
         "thruster_type": 1,
         "description": "The Sunspot is a decent ship that balances strength, energy capacity and acceleration."
     },
@@ -32,6 +36,9 @@
         },
         "thruster_data": [
             [-19, 0]
+        ],
+        "reverse_thruster_data": [
+            [19, 0]
         ],
         "thruster_type": 0,
         "description": "The Boulder is one heavy ship. It is fairly resilient against attack, and has enough space for a powerful reactor and a large capacitor, but its large mass makes it rather sluggish."
@@ -51,6 +58,10 @@
         "thruster_data": [
             [-15, 3],
             [-15, -3]
+        ],
+        "reverse_thruster_data": [
+            [15, 2],
+            [15, -2]
         ],
         "thruster_type": 1,
         "description": "Being a light weight ship, the Mayfly is capable of accelerating to high velocities quickly, making it a difficult target. However its small size means it can only hold a small reactor and is rather fragile."
