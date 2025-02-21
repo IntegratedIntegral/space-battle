@@ -8,6 +8,8 @@ class Player(Ship):
                          start_weapon,
                          start_ship["mass"], start_ship["dimensions"]["semi_length"], start_ship["dimensions"]["semi_width"], start_ship["name"], image_loader, start_ship["thruster_data"], start_ship["thruster_type"])
         self.max_health = start_ship["health"]
+        self.reverse_thruster_data = start_ship["reverse_thruster_data"]
+        self.is_decc = False
 
         self.acc_key = False
         self.decc_key = False
@@ -24,8 +26,24 @@ class Player(Ship):
     def decc(self, delta_t):
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
         if new_capacity >= 0:
-            self.vel -= self.acceleration * pg.Vector2(cos(self.direction), sin(self.direction)) * delta_t #deccelerate
+            self.is_decc = True
+            self.vel -= self.acceleration * self.dir_vec * delta_t #deccelerate
             self.capacitor = new_capacity
+
+    def draw_reverse_thrust_flame(self, window, camera):
+        image = self.thruster_flame_image
+
+        size = pg.Vector2(image.get_size())
+        apparent_size = camera.zoom * size
+        image = pg.transform.scale(image, apparent_size)
+        image = pg.transform.rotate(image, 180 - 180 / pi * self.direction)
+
+        rect = pg.Rect((0, 0), image.get_size())
+        for flame_pos in self.reverse_thruster_data:
+            pos = self.pos + (flame_pos[0] + size.x / 2) * self.dir_vec + flame_pos[1] * pg.Vector2(-self.dir_vec.y, self.dir_vec.x)
+            rect.center = camera.screen_coords(pos.x, pos.y)
+
+            window.blit(image, rect)
     
     def stability_assist(self, delta_t):
         sas_angular_acc = min(self.angular_acc, max(-self.angular_acc, self.angular_vel * SAS_DAMPENING))
@@ -35,7 +53,6 @@ class Player(Ship):
             self.capacitor = new_capacity
     
     def peform_action(self, key_state_pressed, key_state_just_pressed, station, camera, delta_t):
-        #peform actions that are triggered by their coresponding flag variables
         if key_state_pressed[pg.K_d] and not self.docked:
             self.turn_right(delta_t) #turn right
         if key_state_pressed[pg.K_a] and not self.docked:
@@ -51,16 +68,6 @@ class Player(Ship):
         if key_state_pressed[pg.K_LSHIFT]:
             self.stability_assist(delta_t)
     
-    def draw_arrow(self, window, camera, battle_site):
-        center = camera.screen_coords(self.pos.x, self.pos.y)
-        if battle_site:
-            #draws lines that act as guides for which direction to shoot. Takes into account the motion of the player and the enemy
-            for ene in battle_site.enemies:
-                vec_to_ene = ene.pos - self.pos
-            
-                arrow_dir = (vec_to_ene + (ene.vel - self.vel) * vec_to_ene.magnitude() / self.weapon.speed).normalize()
-                pg.draw.line(window, (210, 210, 210), arrow_dir * 50 + center, arrow_dir * 240 + center, width=2)
-    
     def dock(self, station, camera):
         #is the player within docking radius? if so, dock
         if (station.pos - self.pos).magnitude_squared() < DOCK_RADIUS * DOCK_RADIUS:
@@ -74,6 +81,9 @@ class Player(Ship):
     def update(self, window, key_state_pressed, key_state_just_pressed, camera, station, delta_t):
         if not self.docked:
             self.draw(window, camera)
+            if self.is_decc:
+                self.draw_reverse_thrust_flame(window, camera)
+            self.is_decc = False
             self.is_acc = False
             self.update_pos(delta_t)
         

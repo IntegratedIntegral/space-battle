@@ -46,8 +46,7 @@ class ImageLoader:
 
         #bg images
         self.bg_images = {
-            "earth_bg_new": self.load_bg("earth_bg_new"),
-            "background": self.load_bg("background")
+            "earth_bg_new": self.load_bg("earth_bg_new")
         }
 
     @staticmethod

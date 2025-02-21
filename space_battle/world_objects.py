@@ -25,8 +25,6 @@ class WorldObjects:
 
         self.station = Station(location["station"], self.ships, self.weapons, app.image_loader)
 
-        self.font = pg.font.SysFont("Comic Sans MS", 20)
-
         self.panning = False
 
         self.active_bs = None
@@ -55,7 +53,7 @@ class WorldObjects:
         with open("game_objects/weapon_types.json") as file:
             data = json.load(file)
             for w in data:
-                weapons.append(Weapon(w["name"], w["damage"], w["speed"], w["delay"], w["range"], w["power_usage"], images[w["image_id"]]))
+                weapons.append(Weapon(w["name"], w["damage"], w["speed"], w["delay"], w["range"], w["power_usage"], w["mass"], images[w["image_id"]]))
         return weapons
     
     def update(self, delta_t):

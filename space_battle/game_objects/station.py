@@ -14,27 +14,27 @@ class Station:
         self.manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT), theme_path="ui_theme.json")
 
         self.weapon_options = weapons
-        self.weapon_buttons = self.generate_buttons((150, 400), [weapon.name for weapon in weapons])
+        self.weapon_buttons = self.generate_buttons((190, 400), (220, 40), [weapon.name for weapon in weapons])
         self.ship_options = ships
         self.ship_images = image_loader.ships
         self.thruster_images = image_loader.thruster_flames
-        self.ship_buttons = self.generate_buttons((1450, 330), [ship["name"] for ship in ships])
+        self.ship_buttons = self.generate_buttons((1450, 330), (160, 40), [ship["name"] for ship in ships])
         
         self.repair_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((1400, 620), (160, 40)), text="repair ship", manager=self.manager)
 
         self.info_rect = pg.Rect(WINDOW_SEMI_WIDTH - 140, WINDOW_HEIGHT - 260, 280, 240)
         self.info_box = self.get_info_box()
 
-        self.weapons_text_box = pygame_gui.elements.UITextBox("Weapons", pg.Rect((150, 350), (160, 30)), self.manager)
-        self.ships_text_box = pygame_gui.elements.UITextBox("Ships", pg.Rect((1450, 280), (160, 30)), self.manager)
+        self.weapons_title_box = pygame_gui.elements.UITextBox("Weapons", pg.Rect((190, 350), (220, 30)), self.manager)
+        self.ships_title_box = pygame_gui.elements.UITextBox("Ships", pg.Rect((1450, 280), (160, 30)), self.manager)
 
         self.font = pg.font.SysFont("Arial", 16)
     
-    def generate_buttons(self, start_pos, names):
+    def generate_buttons(self, start_pos, size, names):
         buttons = []
         for i in range(len(names)):
             name = names[i]
-            buttons.append(pygame_gui.elements.UIButton(relative_rect=pg.Rect(pg.Vector2(start_pos) + pg.Vector2(0, 60 * i), (160, 40)), text=name, manager=self.manager))
+            buttons.append(pygame_gui.elements.UIButton(relative_rect=pg.Rect(pg.Vector2(start_pos) + pg.Vector2(0, 60 * i), size), text=name, manager=self.manager))
         return buttons
     
     def draw(self, window, camera):
@@ -119,4 +119,5 @@ class Station:
         player.template_image = self.ship_images[ship["name"]]
 
         player.thruster_data = ship["thruster_data"]
+        player.reverse_thruster_data = ship["reverse_thruster_data"]
         player.thruster_flame_image = self.thruster_images[ship["thruster_type"]]

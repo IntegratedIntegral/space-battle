@@ -27,7 +27,7 @@ class Asteroid:
         rel_pos = self.pos - battle_site.pos
 
         if rel_pos.magnitude_squared() >= BATTLE_SITE_RADIUS * BATTLE_SITE_RADIUS:
-            self.pos -= 1.9 * rel_pos
+            self.pos -= 1.99 * rel_pos
     
     def draw(self, window, camera):
         screen_pos = camera.screen_coords(self.pos.x, self.pos.y)
@@ -50,7 +50,7 @@ class Asteroid:
             rel_vel = proj.vel - self.vel
             
             if rel_pos.magnitude_squared() <= self.radius * self.radius: #has the projectile touched the asteroid?
-                self.vel += rel_vel / self.mass
+                self.vel += rel_vel * proj.weapon.mass / self.mass
                 
                 ship.projectiles.remove(proj)
         
