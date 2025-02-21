@@ -20,7 +20,6 @@ class Ship:
         self.weapon = weapon
 
         self.shoot_cool_down = 0
-        #self.flash_timer = 0
         
         self.projectiles = []
 
@@ -57,9 +56,6 @@ class Ship:
             self.pos.y = WORLD_SIZE
             self.vel.y = 0
         
-        #if self.flash_timer > 0:
-            #self.flash_timer = max(self.flash_timer - delta_t, 0)
-        
         if self.shoot_cool_down > 0:
             self.shoot_cool_down = max(self.shoot_cool_down - delta_t, 0)
     
@@ -86,7 +82,7 @@ class Ship:
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
         if new_capacity >= 0:
             self.is_acc = True
-            self.vel += self.acceleration * pg.Vector2(cos(self.direction), sin(self.direction)) * delta_t #accelerate
+            self.vel += self.acceleration * self.dir_vec * delta_t #accelerate
             self.capacitor = new_capacity
     def shoot(self):
         if self.shoot_cool_down == 0 and self.capacitor >= self.weapon.power_usage:
@@ -96,7 +92,6 @@ class Ship:
 
     def take_damage(self, damage):
         self.health = max(self.health - damage, 0)
-        #self.flash_timer = 120
     
     def draw(self, window, camera):
         image = self.template_image
@@ -125,7 +120,7 @@ class Ship:
         cos_dir = cos(self.direction)
         sin_dir = sin(self.direction)
         for flame_pos in self.thruster_data:
-            pos = self.pos + (flame_pos[0] - size.x / 2) * pg.Vector2(cos_dir, sin_dir) + flame_pos[1] * pg.Vector2(-sin_dir, cos_dir)
+            pos = self.pos + (flame_pos[0] - size.x / 2) * self.dir_vec + flame_pos[1] * pg.Vector2(-self.dir_vec.y, self.dir_vec.x)
             rect.center = camera.screen_coords(pos.x, pos.y)
 
             window.blit(image, rect)
