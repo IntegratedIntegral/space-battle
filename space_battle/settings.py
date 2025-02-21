@@ -15,7 +15,6 @@ MAX_ZOOM = 3.5
 
 DOCK_RADIUS = 1500
 
-FLASH_MULTIPLIER = 1.7
 PICK_UP_RADIUS = 650
 SAS_DAMPENING = 0.011
 
@@ -45,9 +44,9 @@ BATTLE_SITE_ENEMY_SHIP_TYPES = {
     "heavily armoured fleet": ["bomber", "mothership"]
 }
 BATTLE_SITE_ENEMY_WEAPON_TYPES = {
-    "explosives test site": ["explosive A", "explosive B"],
-    "lightweight fleet": ["radioactive A", "plasma A", "plasma C", "kinetic"],
-    "heavily armoured fleet": ["explosive A", "radioactive B", "plasma A", "kinetic"]
+    "explosives test site": ["explosive launcher type A", "explosive launcher type B"],
+    "lightweight fleet": ["radioactive A", "plasma short-range", "plasma mid-range", "kinetic railgun"],
+    "heavily armoured fleet": ["explosive launcher type A", "radioactive B", "plasma short-range", "kinetic railgun"]
 }
 
 MIN_ASTEROID_RADIUS = 20
