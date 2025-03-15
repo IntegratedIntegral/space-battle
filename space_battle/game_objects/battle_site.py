@@ -70,7 +70,7 @@ class BattleSite:
                     break
             
             self.enemies.append(Enemy(pos, ene_type["health"], ene_type["capacitor"], ene_type["charge_rate"], ene_type["acceleration"], ene_type["angular_acc"],
-                                      ene[1],
+                                      ene[1], #weapon
                                       ene_type["mass"], ene_type["dimensions"]["semi_length"], ene_type["dimensions"]["semi_width"],
                                       ene_type["name"], self.app.image_loader, ene_type["thruster_data"], ene_type["thruster_type"]))
             

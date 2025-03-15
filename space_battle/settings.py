@@ -1,10 +1,16 @@
 import pygame as pg
 from math import *
 
+pg.font.init()
+
 WINDOW_WIDTH = 1700
 WINDOW_HEIGHT = 930
 WINDOW_SEMI_WIDTH = WINDOW_WIDTH // 2
 WINDOW_SEMI_HEIGHT = WINDOW_HEIGHT // 2
+
+UI_FONT = pg.font.SysFont("arial", 14)
+BUTTON_COLOUR = (43, 201, 212)
+UI_TEXT_COLOUR = (7, 62, 82)
 
 WORLD_SIZE = 64000
 BATTLE_SITE_RADIUS = 5000

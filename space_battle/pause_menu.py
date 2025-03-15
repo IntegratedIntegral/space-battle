@@ -1,16 +1,15 @@
-import pygame_gui
 from settings import *
+from button import Button
+from info_panel import InfoPanel
 
 class PauseMenu:
     def __init__(self):
-        self.manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT), theme_path="ui_theme.json")
+        self.button_size = (150, 50)
+        window_center_x = WINDOW_SEMI_WIDTH - self.button_size[0] / 2
+        self.quit_button = Button((window_center_x, 600), self.button_size, "quit")
+        self.key_bindings_button = Button((window_center_x, 530), self.button_size, "show key bindings")
 
-        self.button_size = pg.Vector2(150, 50)
-        window_center_x = WINDOW_SEMI_WIDTH - self.button_size.x / 2
-        self.quit_button = pygame_gui.elements.UIButton(pg.Rect((window_center_x, 600), self.button_size), text="quit", manager=self.manager)
-        self.key_bindings_button = pygame_gui.elements.UIButton(pg.Rect((window_center_x, 530), self.button_size), text="show key bindings", manager=self.manager)
-
-        text = """
+        self.key_bindings_text = """
             pause: ESC
             accelerate: W
             deccelerate: S
@@ -25,18 +24,16 @@ class PauseMenu:
             zoom: scroll
             map zoom: CTRL + scroll
         """
-        self.key_bindings_info_box = pygame_gui.elements.UITextBox(text, relative_rect=pg.Rect((1200, 265), (300, 400)), manager=self.manager, visible=False)
+        self.key_bindings_text_rows = self.key_bindings_text.split("\n")
+        self.key_bindings_info_box = InfoPanel((1200, 265), (300, 400), colour=BUTTON_COLOUR, text_colour=UI_TEXT_COLOUR, alpha=255)
+        self.show_key_bindings = False
     
-    def update(self, app, event):
-        if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            if event.ui_element == self.quit_button:
-                app.running = False
-            
-            elif event.ui_element == self.key_bindings_button:
-                self.key_bindings_info_box.visible = not self.key_bindings_info_box.visible
+    def update(self, app):
+        self.quit_button.update(app.window, app.lmb_pressed)
+        self.key_bindings_button.update(app.window, app.lmb_pressed)
+
+        if self.quit_button.pressed: app.running = False
         
-        self.manager.process_events(event)
-
-        self.manager.update(app.delta_t / 1000)
-
-        self.manager.draw_ui(app.window)
+        elif self.key_bindings_button.just_pressed: self.show_key_bindings = not self.show_key_bindings
+        
+        if self.show_key_bindings: self.key_bindings_info_box.base_draw(app.window, self.key_bindings_text_rows)

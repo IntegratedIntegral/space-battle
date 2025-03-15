@@ -89,7 +89,7 @@ class Ship:
             self.projectiles.append(Proj(self)) #spawn projectile
             self.shoot_cool_down = self.weapon.delay
             self.capacitor -= self.weapon.power_usage
-            
+
             #recoil
             self.vel -= self.weapon.speed * self.weapon.mass / self.mass * self.dir_vec
 
@@ -111,7 +111,7 @@ class Ship:
         if self.is_acc:
             self.draw_thrust_flame(window, camera)
     
-    def draw_thrust_flame(self, window, camera):
+    def draw_thrust_flame(self, window, camera):  
         image = self.thruster_flame_image
 
         size = pg.Vector2(image.get_size())
@@ -119,9 +119,7 @@ class Ship:
         image = pg.transform.scale(image, apparent_size)
         image = pg.transform.rotate(image, -180 / pi * self.direction)
 
-        rect = pg.Rect(0, 0, *image.get_size())
-        cos_dir = cos(self.direction)
-        sin_dir = sin(self.direction)
+        rect = pg.Rect((0, 0), image.get_size())
         for flame_pos in self.thruster_data:
             pos = self.pos + (flame_pos[0] - size.x / 2) * self.dir_vec + flame_pos[1] * pg.Vector2(-self.dir_vec.y, self.dir_vec.x)
             rect.center = camera.screen_coords(pos.x, pos.y)

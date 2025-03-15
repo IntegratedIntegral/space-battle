@@ -18,8 +18,9 @@ class Explosion():
     
     def explode(self, window, delta_t, camera):
         for i in range(self.clouds):
-            x = cos(2 * pi / self.clouds * i) * self.speeds[i] * self.time + self.ship.pos.x
-            y = sin(2 * pi / self.clouds * i) * self.speeds[i] * self.time + self.ship.pos.y
+            angle = 2 * pi / self.clouds * i
+            x = cos(angle) * self.speeds[i] * self.time + self.ship.pos.x
+            y = sin(angle) * self.speeds[i] * self.time + self.ship.pos.y
             
             apparent_size = camera.zoom * self.sizes[i]
             image = pg.transform.scale(self.image, (apparent_size, apparent_size))
