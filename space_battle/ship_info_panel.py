@@ -2,7 +2,7 @@ from info_panel import InfoPanel
 
 class ShipInfoPanel(InfoPanel):
     def __init__(self, ship):
-        super().__init__((180, 180))
+        super().__init__((0, 0), (180, 180))
         self.ship = ship
     
     def draw(self, window, player):

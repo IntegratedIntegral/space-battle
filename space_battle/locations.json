@@ -6,12 +6,12 @@
         "battle_sites": [
             {
                 "pos": [55509, 19916],
-                "difficulty": "hard",
+                "difficulty": "easy",
                 "type": "lightweight fleet"
             },
             {
                 "pos": [ 6144, 56721],
-                "difficulty": "medium",
+                "difficulty": "easy",
                 "type": "explosives test site"
             },
             {
@@ -22,11 +22,45 @@
             {
                 "pos": [57856, 55722],
                 "difficulty": "medium",
-                "type": "heavily armoured fleet"
+                "type": "lightweight fleet"
             }
         ],
         "station": {
             "pos": [19919, 11953],
+            "image_id": "earth_station",
+            "size": [1500, 2600],
+            "mosaic_splitting": [3, 5],
+            "exit_pos": [750, -972]
+        }
+    },
+    {
+        "name": "The Moon",
+        "bg_image": "moon_bg",
+        "start_pos": [55892, 39665],
+        "battle_sites": [
+            {
+                "pos": [48354, 22300],
+                "difficulty": "easy",
+                "type": "lightweight fleet"
+            },
+            {
+                "pos": [38871, 57566],
+                "difficulty": "medium",
+                "type": "explosives test site"
+            },
+            {
+                "pos": [27403, 31026],
+                "difficulty": "medium",
+                "type": "lightweight fleet"
+            },
+            {
+                "pos": [ 8440, 13682],
+                "difficulty": "easy",
+                "type": "explosives test site"
+            }
+        ],
+        "station": {
+            "pos": [55892, 41065],
             "image_id": "earth_station",
             "size": [1500, 2600],
             "mosaic_splitting": [3, 5],

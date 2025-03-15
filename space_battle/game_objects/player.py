@@ -20,8 +20,7 @@ class Player(Ship):
 
         self.docked = False
 
-        self.info_panel = InfoPanel((180, 180))
-        self.info_panel.pos = (10, 740)
+        self.info_panel = InfoPanel((10, 740), (180, 180))
 
     def decc(self, delta_t):
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
@@ -29,7 +28,7 @@ class Player(Ship):
             self.is_decc = True
             self.vel -= self.acceleration * self.dir_vec * delta_t #deccelerate
             self.capacitor = new_capacity
-
+    
     def draw_reverse_thrust_flame(self, window, camera):
         image = self.thruster_flame_image
 
@@ -53,6 +52,7 @@ class Player(Ship):
             self.capacitor = new_capacity
     
     def peform_action(self, key_state_pressed, key_state_just_pressed, station, camera, delta_t):
+        #peform actions that are triggered by their coresponding flag variables
         if key_state_pressed[pg.K_d] and not self.docked:
             self.turn_right(delta_t) #turn right
         if key_state_pressed[pg.K_a] and not self.docked:
@@ -83,8 +83,8 @@ class Player(Ship):
             self.draw(window, camera)
             if self.is_decc:
                 self.draw_reverse_thrust_flame(window, camera)
-            self.is_decc = False
             self.is_acc = False
+            self.is_decc = False
             self.update_pos(delta_t)
         
         self.recharge(delta_t)

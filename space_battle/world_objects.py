@@ -11,6 +11,8 @@ class WorldObjects:
         #collection of all objects in the world, including battle sites, player and stations
         self.app = app
 
+        self.active_location_name = location["name"]
+
         self.bg_image_id = location["bg_image"]
 
         self.camera = Camera()
@@ -61,8 +63,6 @@ class WorldObjects:
 
         #STATION
         self.station.draw(self.app.window, self.camera)
-        if self.player.docked:
-            self.station.manager.draw_ui(self.app.window)
 
         #BATTLE SITES
         in_bs = False
@@ -112,3 +112,16 @@ class WorldObjects:
         
         if self.app.key_state_just_pressed[pg.K_v]:
             self.camera.offset.x, self.camera.offset.y = 0, 0 #center view
+    
+    def set_location(self, location):
+        self.player.pos = pg.Vector2(location["start_pos"])
+        self.player.vel = pg.Vector2()
+        self.player.direction = 0
+        self.player.angular_vel = 0
+
+        self.station.set_location(self.app.image_loader, location["station"])
+
+        self.battle_sites = self.generate_battle_sites(location["battle_sites"])
+
+        self.bg_image_id = location["bg_image"]
+        self.active_location_name = location["name"]
