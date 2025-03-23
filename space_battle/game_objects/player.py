@@ -89,8 +89,9 @@ class Player(Ship):
         
         self.recharge(delta_t)
         self.update_projectiles(window, delta_t, camera)
-        self.peform_action(key_state_pressed, key_state_just_pressed, station, camera, delta_t)
-        
+        self.update_timers(delta_t)
+
+        if self.stun_timer == 0: self.peform_action(key_state_pressed, key_state_just_pressed, station, camera, delta_t)
     
     def show_info(self):
         return "you"

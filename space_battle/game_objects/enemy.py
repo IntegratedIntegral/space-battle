@@ -68,10 +68,10 @@ class Enemy(Ship):
         self.is_acc = False
         self.update_pos(delta_t)
         self.update_projectiles(window, delta_t, camera)
+        self.update_timers(delta_t)
         self.recharge(delta_t)
 
-        if player.health > 0:
-            self.peform_action(player, battle_site, is_active, delta_t) #player is still alive! must hunt it down!
+        if player.health > 0 and self.stun_timer == 0: self.peform_action(player, battle_site, is_active, delta_t) #player is still alive! must hunt it down!
     
     def show_info(self):
         return self.ship_type + "\nhealth: " + str(self.health)

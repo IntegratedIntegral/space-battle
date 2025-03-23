@@ -1,7 +1,8 @@
 class Weapon:
-    def __init__(self, name, damage, speed, delay, dist, power_usage, mass, sprite):
+    def __init__(self, name, damage, electronic_damage, speed, delay, dist, power_usage, mass, sprite):
         self.name = name
         self.damage = damage
+        self.electronic_damage = electronic_damage
         self.speed = speed
         self.delay = delay #delay (measured in milliseconds) between consecutive shots
         self.range = dist

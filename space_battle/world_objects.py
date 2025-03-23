@@ -55,7 +55,7 @@ class WorldObjects:
         with open("game_objects/weapon_types.json") as file:
             data = json.load(file)
             for w in data:
-                weapons.append(Weapon(w["name"], w["damage"], w["speed"], w["delay"], w["range"], w["power_usage"], w["mass"], images[w["image_id"]]))
+                weapons.append(Weapon(w["name"], w["damage"], w["electronic_damage"], w["speed"], w["delay"], w["range"], w["power_usage"], w["mass"], images[w["image_id"]]))
         return weapons
     
     def update(self, delta_t):

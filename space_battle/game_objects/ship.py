@@ -23,6 +23,8 @@ class Ship:
         
         self.projectiles = []
 
+        self.stun_timer = 0
+
         self.explosion = Explosion(self, image_loader.EXPLOSION_PARTICLE_IMG)
 
         self.hitbox_semi_length = hitbox_semi_length
@@ -55,9 +57,10 @@ class Ship:
         elif self.pos.y > WORLD_SIZE:
             self.pos.y = WORLD_SIZE
             self.vel.y = 0
-        
-        if self.shoot_cool_down > 0:
-            self.shoot_cool_down = max(self.shoot_cool_down - delta_t, 0)
+    
+    def update_timers(self, delta_t):
+        if self.shoot_cool_down > 0: self.shoot_cool_down = max(self.shoot_cool_down - delta_t, 0)
+        if self.stun_timer > 0: self.stun_timer = max(self.stun_timer - delta_t, 0)
     
     def recharge(self, delta_t):
         self.capacitor = min(self.max_capacity, self.capacitor + self.charge_rate * delta_t)
@@ -73,28 +76,38 @@ class Ship:
         if new_capacity >= 0:
             self.angular_vel += self.angular_acc * delta_t #turn right
             self.capacitor = new_capacity
+        else: self.stun_timer = STUN_DURATION
+
     def turn_left(self, delta_t):
         new_capacity = self.capacitor - TURN_POWER_USAGE * delta_t
         if new_capacity >= 0:
             self.angular_vel -= self.angular_acc * delta_t #turn left
             self.capacitor = new_capacity
+        else: self.stun_timer = STUN_DURATION
+
     def acc(self, delta_t):
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
         if new_capacity >= 0:
             self.is_acc = True
             self.vel += self.acceleration * self.dir_vec * delta_t #accelerate
             self.capacitor = new_capacity
+        else: self.stun_timer = STUN_DURATION
+    
     def shoot(self):
-        if self.shoot_cool_down == 0 and self.capacitor >= self.weapon.power_usage:
-            self.projectiles.append(Proj(self)) #spawn projectile
-            self.shoot_cool_down = self.weapon.delay
-            self.capacitor -= self.weapon.power_usage
+        if self.shoot_cool_down == 0:
+            if self.capacitor >= self.weapon.power_usage:
+                self.projectiles.append(Proj(self)) #spawn projectile
+                self.shoot_cool_down = self.weapon.delay
+                self.capacitor -= self.weapon.power_usage
 
-            #recoil
-            self.vel -= self.weapon.speed * self.weapon.mass / self.mass * self.dir_vec
+                #recoil
+                self.vel -= self.weapon.speed * self.weapon.mass / self.mass * self.dir_vec
+            else: self.stun_timer = STUN_DURATION
 
-    def take_damage(self, damage):
-        self.health = max(self.health - damage, 0)
+    def take_damage(self, weapon):
+        self.health = max(self.health - weapon.damage, 0)
+        self.capacitor = max(self.capacitor - weapon.electronic_damage, 0)
+        if self.capacitor == 0: self.stun_timer = STUN_DURATION
     
     def draw(self, window, camera):
         image = self.template_image
@@ -108,8 +121,7 @@ class Ship:
 
         window.blit(image, rect)
 
-        if self.is_acc:
-            self.draw_thrust_flame(window, camera)
+        if self.is_acc: self.draw_thrust_flame(window, camera)
     
     def draw_thrust_flame(self, window, camera):  
         image = self.thruster_flame_image
@@ -146,7 +158,7 @@ class Ship:
                 HBsegmentY = [hitBoxCorners[i][1], hitBoxCorners[(i + 1) % 4][1]]
 
                 if (min(*HBsegmentX) < max(relX, prevX) and min(relX, prevX) < max(*HBsegmentX)) and (min(*HBsegmentY) < max(relY, prevY) and min(relY, prevY) < max(*HBsegmentY)): #when projectile hits ship health will decrease
-                    self.take_damage(attacker.weapon.damage)
+                    self.take_damage(attacker.weapon)
                     attacker.projectiles.remove(proj)
                     return True
         return False
