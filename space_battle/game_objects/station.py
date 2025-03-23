@@ -79,6 +79,7 @@ class Station:
     def show_weapon_info(self, weapon):
         self.info_box_rows = [
             f"damage: {weapon.damage}",
+            f"electronic damage: {weapon.electronic_damage}MJ",
             f"range: {weapon.range}m",
             f"speed: {weapon.speed * 1000}m/s",
             f"shoot delay: {weapon.delay / 1000}s",

@@ -122,11 +122,10 @@ class BattleSite:
 
                 if (player.pos - self.pos).magnitude_squared() <= BATTLE_SITE_RADIUS * BATTLE_SITE_RADIUS:
                     collided = ene.collision_detection(delta_t, player) #when player hits enemy enemie's health will decrease
-                    if collided and ene.health == 0:
-                        self.hlthUps.append(HealthUp(self.app.image_loader, ene.pos)) #enemy ship destroyed! spawns a health up
+
+                    if collided and ene.health == 0: self.hlthUps.append(HealthUp(self.app.image_loader, ene.pos)) #enemy ship destroyed! spawns a health up
                 
-            elif ene.explosion.time < EXPLOSION_TIME:
-                ene.explosion.explode(self.app.window, delta_t, camera) #enemy ship destroyed! spawns smoke particles
+            elif ene.explosion.time < EXPLOSION_TIME: ene.explosion.explode(self.app.window, delta_t, camera) #enemy ship destroyed! spawns smoke particles
             
             else:
                 self.app.ui.ene_info_panels.remove(ene.info_panel)
