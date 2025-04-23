@@ -2,7 +2,7 @@
     {
         "name": "Earth",
         "bg_image": "earth_bg_new",
-        "start_pos": [19919, 10453],
+        "start_pos": [19919, 10553],
         "battle_sites": [
             {
                 "pos": [55509, 19916],

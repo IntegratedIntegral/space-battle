@@ -1,10 +1,12 @@
 from settings import *
+from info_panel import InfoPanel
 
 class UI:
     def __init__(self, player):
         self.player = player
         self.ene_info_panels = []
         self.player_info_panel = player.info_panel
+        self.utility_panel = InfoPanel((200, 860), (80, 60), text_pos=(10, 5))
     
     def draw_direction_arrow(self, window):
         pg.draw.line(window, (43, 201, 212), self.player.dir_vec * 50 + self.center, self.player.dir_vec * 190 + self.center, width=2)
@@ -35,3 +37,10 @@ class UI:
             f"  damage: {self.player.weapon.damage}",
             f"  range: {self.player.weapon.range}m"
         ])
+
+        #UTILITY PANEL
+        if self.player.utility:
+            self.utility_panel.base_draw(window, [
+                self.player.utility.name,
+                "active" if self.player.utility.active else "inactive"
+            ])

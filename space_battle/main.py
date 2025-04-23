@@ -102,8 +102,8 @@ class Main:
             pg.display.flip()
 
 if __name__ == "__main__":
-    dir_path = os.path.realpath(os.path.dirname(__file__))
-    os.chdir(dir_path)
+    #dir_path = os.path.realpath(os.path.dirname(__file__))
+    #os.chdir(dir_path)
     
     app = Main()
     app.run()
