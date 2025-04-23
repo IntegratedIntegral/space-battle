@@ -7,20 +7,33 @@ class Player(Ship):
         super().__init__(pos, start_ship["health"], start_ship["capacitor"], start_ship["charge_rate"], start_ship["acceleration"], start_ship["angular_acc"],
                          start_weapon,
                          start_ship["mass"], start_ship["dimensions"]["semi_length"], start_ship["dimensions"]["semi_width"], start_ship["name"], image_loader, start_ship["thruster_data"], start_ship["thruster_type"])
+        self.utility = None
+
         self.max_health = start_ship["health"]
         self.reverse_thruster_data = start_ship["reverse_thruster_data"]
         self.is_decc = False
 
-        self.acc_key = False
-        self.decc_key = False
-        self.turn_left_key = False
-        self.turn_right_key = False
-        self.shoot_key = False
-        self.SAS = False
+        self.is_mobile = True
 
         self.docked = False
 
         self.info_panel = InfoPanel((10, 740), (180, 180))
+    
+    def update(self, window, key_state_pressed, key_state_just_pressed, camera, station, delta_t):
+        if not self.docked:
+            self.draw(window, camera)
+            if self.is_decc: self.draw_reverse_thrust_flame(window, camera)
+            self.is_acc = False
+            self.is_decc = False
+            self.update_pos(delta_t)
+        
+        self.recharge(delta_t)
+        self.update_projectiles(window, delta_t, camera)
+        self.update_timers(delta_t)
+
+        if self.stun_timer == 0:
+            self.peform_action(key_state_pressed, key_state_just_pressed, station, camera, delta_t)
+            if self.utility: self.utility.update(self, delta_t)
 
     def decc(self, delta_t):
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
@@ -28,6 +41,26 @@ class Player(Ship):
             self.is_decc = True
             self.vel -= self.acceleration * self.dir_vec * delta_t #deccelerate
             self.capacitor = new_capacity
+        else: self.stun_timer = STUN_DURATION
+    
+    def peform_action(self, key_state_pressed, key_state_just_pressed, station, camera, delta_t):
+        #peform actions that are triggered by their coresponding flag variables
+        if key_state_pressed[pg.K_d] and not self.docked and self.is_mobile:
+            self.turn_right(delta_t) #turn right
+        if key_state_pressed[pg.K_a] and not self.docked and self.is_mobile:
+            self.turn_left(delta_t) #turn left
+        if key_state_pressed[pg.K_w] and not self.docked and self.is_mobile:
+            self.acc(delta_t) #accelerate
+        if key_state_pressed[pg.K_s] and not self.docked and self.is_mobile:
+            self.decc(delta_t) #deccelerate
+        if key_state_pressed[pg.K_x] and not self.docked and self.is_mobile:
+            self.shoot() #shoot
+        if key_state_just_pressed[pg.K_c]:
+            self.dock(station, camera)
+        if key_state_pressed[pg.K_LSHIFT] and not self.docked and self.is_mobile:
+            self.stability_assist(delta_t)
+        if key_state_just_pressed[pg.K_g] and self.utility:
+            self.utility.toggle(self)
     
     def draw_reverse_thrust_flame(self, window, camera):
         image = self.thruster_flame_image
@@ -51,23 +84,6 @@ class Player(Ship):
             self.angular_vel -= sas_angular_acc * delta_t
             self.capacitor = new_capacity
     
-    def peform_action(self, key_state_pressed, key_state_just_pressed, station, camera, delta_t):
-        #peform actions that are triggered by their coresponding flag variables
-        if key_state_pressed[pg.K_d] and not self.docked:
-            self.turn_right(delta_t) #turn right
-        if key_state_pressed[pg.K_a] and not self.docked:
-            self.turn_left(delta_t) #turn left
-        if key_state_pressed[pg.K_w] and not self.docked:
-            self.acc(delta_t) #accelerate
-        if key_state_pressed[pg.K_s] and not self.docked:
-            self.decc(delta_t) #deccelerate
-        if key_state_pressed[pg.K_x] and not self.docked:
-            self.shoot() #shoot
-        if key_state_just_pressed[pg.K_c]:
-            self.dock(station, camera)
-        if key_state_pressed[pg.K_LSHIFT]:
-            self.stability_assist(delta_t)
-    
     def dock(self, station, camera):
         #is the player within docking radius? if so, dock
         if (station.pos - self.pos).magnitude_squared() < DOCK_RADIUS * DOCK_RADIUS:
@@ -77,21 +93,6 @@ class Player(Ship):
             self.pos = station.pos + station.exit_pos
             camera.zoom = 1.0
             camera.focus_pos = pg.Vector2()
-
-    def update(self, window, key_state_pressed, key_state_just_pressed, camera, station, delta_t):
-        if not self.docked:
-            self.draw(window, camera)
-            if self.is_decc:
-                self.draw_reverse_thrust_flame(window, camera)
-            self.is_acc = False
-            self.is_decc = False
-            self.update_pos(delta_t)
-        
-        self.recharge(delta_t)
-        self.update_projectiles(window, delta_t, camera)
-        self.update_timers(delta_t)
-
-        if self.stun_timer == 0: self.peform_action(key_state_pressed, key_state_just_pressed, station, camera, delta_t)
     
     def show_info(self):
         return "you"

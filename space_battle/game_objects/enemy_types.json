@@ -69,5 +69,18 @@
             [-18, -17]
         ],
         "thruster_type": 1
+    },
+    {
+        "name": "Guard",
+        "health": 47,
+        "capacitor": 410.0,
+        "charge_rate": 0.0213,
+        "acceleration": 0.000013,
+        "angular_acc": 0.000028,
+        "mass": 335.4,
+        "dimensions": {
+            "semi_length": 39,
+            "semi_width": 20
+        }
     }
 ]

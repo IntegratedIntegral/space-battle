@@ -1,8 +1,10 @@
 from settings import *
 from image_mosaic import ImageMosaic
 from button import Button
+from text_box import TextBox
 from info_panel import InfoPanel
 from paragraph_line_break import line_break
+from game_objects.utilities import *
 
 class Station:
     def __init__(self, data, ships, weapons, image_loader):
@@ -13,20 +15,33 @@ class Station:
         image = pg.transform.scale(image_loader.stations[data["image_id"]], self.size)
         self.image_mosaic = ImageMosaic(image, data["mosaic_splitting"])
 
+        #WEAPON BUTTONS
         self.weapon_options = weapons
         self.weapon_buttons = self.generate_buttons((190, 400), (220, 40), [weapon.name for weapon in weapons])
+
+        #SHIP BUTTONS
         self.ship_options = ships
         self.ship_images = image_loader.ships
         self.thruster_images = image_loader.thruster_flames
-        self.ship_buttons = self.generate_buttons((1450, 330), (160, 40), [ship["name"] for ship in ships])
+        self.ship_buttons = self.generate_buttons((1500, 250), (160, 40), [ship["name"] for ship in ships])
+
+        #UTILITY BUTTONS
+        self.utility_options = [None, Repairer()]
+        utility_names = []
+        for utility in self.utility_options:
+            if utility: utility_names.append(utility.name)
+            else: utility_names.append("none")
+        self.utility_buttons = self.generate_buttons((1350, 250), (80, 40), utility_names)
         
         self.repair_button = Button((1400, 620), (160, 40), "repair ship")
 
         self.info_box = InfoPanel((WINDOW_SEMI_WIDTH - 140, WINDOW_HEIGHT - 370), (280, 360), text_pos=(10, 10), colour=BUTTON_COLOUR, text_colour=UI_TEXT_COLOUR, alpha=255)
         self.info_box_rows = []
 
-        self.weapons_title_box = InfoPanel((190, 350), (220, 30), text_pos=(10, 9), colour=BUTTON_COLOUR, text_colour=UI_TEXT_COLOUR, alpha=255)
-        self.ships_title_box = InfoPanel((1450, 280), (160, 30), text_pos=(10, 9), colour=BUTTON_COLOUR, text_colour=UI_TEXT_COLOUR, alpha=255)
+        #TITLE BOXES
+        self.weapons_title_box = TextBox((190, 350), (220, 30), "Weapons")
+        self.ships_title_box = TextBox((1500, 200), (160, 30), "Ships")
+        self.utilities_title_box = TextBox((1350, 200), (80, 30), "Utilities")
 
         #self.font = pg.font.SysFont("Arial", 16)
     
@@ -49,8 +64,10 @@ class Station:
             self.image_mosaic.draw(window, rect.topleft, camera.zoom)
     
     def update_ui(self, app, player):
-        self.weapons_title_box.base_draw(app.window, ["weapons"])
-        self.ships_title_box.base_draw(app.window, ["Ships"])
+        self.weapons_title_box.draw(app.window)
+        self.ships_title_box.draw(app.window)
+        self.utilities_title_box.draw(app.window)
+
         self.repair_button.update(app.window, app.lmb_pressed)
 
         for i in range(len(self.weapon_options)):
@@ -68,6 +85,14 @@ class Station:
             button.update(app.window, app.lmb_pressed)
             if button.pressed: self.change_ship(player, self.ship_options[i]) #change ship
             if button.hovered: self.show_ship_info(ship)
+        
+        for i in range(len(self.utility_options)):
+            button = self.utility_buttons[i]
+            utility = self.utility_options[i]
+
+            button.update(app.window, app.lmb_pressed)
+            if button.pressed: player.utility = utility #change utility
+            if button.hovered: self.show_utility_info(utility)
             
         if self.repair_button.pressed: player.health = player.max_health #repair ship
 
@@ -83,7 +108,8 @@ class Station:
             f"range: {weapon.range}m",
             f"speed: {weapon.speed * 1000}m/s",
             f"shoot delay: {weapon.delay / 1000}s",
-            f"capacitor usage: {weapon.power_usage}MJ",
+            f"capacitor usage: {weapon.power_usage}MJ/shot",
+            f"wattage: {round(weapon.power_usage / weapon.delay * 1000, 3)}MW",
             f"projectile mass: {weapon.mass} tonnes"
         ]
     
@@ -100,6 +126,10 @@ class Station:
             "  width: " + str(ship["dimensions"]["semi_width"] * 2) + "m",
             "description:\n" + line_break(ship["description"], UI_FONT, self.info_box.surf.size[0] - 2 * self.info_box.text_pos[0])
         ]
+    
+    def show_utility_info(self, utility):
+        if utility: self.info_box_rows = utility.info_rows
+        else: self.info_box_rows = ["nothing will be applied"]
     
     def change_ship(self, player, ship):
         player.health = ship["health"]
