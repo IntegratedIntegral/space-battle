@@ -36,7 +36,7 @@
     {
         "name": "The Moon",
         "bg_image": "moon_bg",
-        "start_pos": [55892, 39665],
+        "start_pos": [55892, 40165],
         "battle_sites": [
             {
                 "pos": [48354, 22300],
@@ -61,10 +61,10 @@
         ],
         "station": {
             "pos": [55892, 41065],
-            "image_id": "earth_station",
-            "size": [1500, 2600],
-            "mosaic_splitting": [3, 5],
-            "exit_pos": [750, -972]
+            "image_id": "moon_station",
+            "size": [1600, 900],
+            "mosaic_splitting": [4, 3],
+            "exit_pos": [-100, -400]
         }
     }
 ]
