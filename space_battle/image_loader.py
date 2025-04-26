@@ -31,7 +31,8 @@ class ImageLoader:
 
         #stations
         self.stations = {
-            "earth_station": self.load_image("earth_station")
+            "earth_station": self.load_image("stations/earth_station"),
+            "moon_station": self.load_image("stations/moon_station")
         }
 
         #healthup
