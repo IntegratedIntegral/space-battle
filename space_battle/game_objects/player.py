@@ -4,10 +4,10 @@ from info_panel import InfoPanel
 
 class Player(Ship):
     def __init__(self, pos, start_ship, start_weapon, image_loader):
-        super().__init__(pos, start_ship["health"], start_ship["capacitor"], start_ship["charge_rate"], start_ship["acceleration"], start_ship["angular_acc"],
+        super().__init__(pos, start_ship["health"], start_ship["capacitor"], start_ship["charge_rate"], start_ship["thrust"], start_ship["angular_acc"],
                          start_weapon,
                          start_ship["mass"], start_ship["dimensions"]["semi_length"], start_ship["dimensions"]["semi_width"], start_ship["name"], image_loader, start_ship["thruster_data"], start_ship["thruster_type"])
-        self.utility = None
+        self._utility = None
 
         self.max_health = start_ship["health"]
         self.reverse_thruster_data = start_ship["reverse_thruster_data"]
@@ -17,7 +17,7 @@ class Player(Ship):
 
         self.docked = False
 
-        self.info_panel = InfoPanel((10, 740), (180, 180))
+        self.info_panel = InfoPanel((10, 735), (180, 185), text_pos=(10, 10))
     
     def update(self, window, key_state_pressed, key_state_just_pressed, camera, station, delta_t):
         if not self.docked:
@@ -33,7 +33,7 @@ class Player(Ship):
 
         if self.stun_timer == 0:
             self.peform_action(key_state_pressed, key_state_just_pressed, station, camera, delta_t)
-            if self.utility: self.utility.update(self, delta_t)
+            if self._utility: self._utility.update(self, delta_t)
 
     def decc(self, delta_t):
         new_capacity = self.capacitor - ACC_POWER_USAGE * delta_t
@@ -59,8 +59,8 @@ class Player(Ship):
             self.dock(station, camera)
         if key_state_pressed[pg.K_LSHIFT] and not self.docked and self.is_mobile:
             self.stability_assist(delta_t)
-        if key_state_just_pressed[pg.K_g] and self.utility:
-            self.utility.toggle(self)
+        if key_state_just_pressed[pg.K_g] and self._utility:
+            self._utility.toggle(self)
     
     def draw_reverse_thrust_flame(self, window, camera):
         image = self.thruster_flame_image
@@ -96,3 +96,33 @@ class Player(Ship):
     
     def show_info(self):
         return "you"
+    
+    @property
+    def hull_mass(self):
+        return self._hull_mass
+    
+    @hull_mass.setter
+    def hull_mass(self, val):
+        self._hull_mass = val
+        if self._utility: self.mass = self._hull_mass + self._weapon.mass + self._utility.mass
+        else: self.mass = self._hull_mass + self._weapon.mass
+    
+    @property
+    def weapon(self):
+        return self._weapon
+    
+    @weapon.setter
+    def weapon(self, val):
+        self._weapon = val
+        if self._utility: self.mass = self._hull_mass + val.mass + self._utility.mass
+        else: self.mass = self._hull_mass + val.mass
+
+    @property
+    def utility(self):
+        return self._utility
+    
+    @utility.setter
+    def utility(self, val):
+        self._utility = val
+        if val: self.mass = self._hull_mass + self._weapon.mass + val.mass
+        else: self.mass = self._hull_mass + self._weapon.mass

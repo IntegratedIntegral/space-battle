@@ -3,7 +3,7 @@ from game_objects.explosion import Explosion
 from game_objects.projectile import Proj
 
 class Ship:
-    def __init__(self, pos, health, capacitor, charge_rate, acceleration, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, ship_img_id, image_loader, thruster_data, thruster_type):
+    def __init__(self, pos, health, capacitor, charge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, ship_img_id, image_loader, thruster_data, thruster_type):
         self.pos = pg.Vector2(pos)
         self.vel = pg.Vector2(0)
         self.direction = 0
@@ -11,13 +11,16 @@ class Ship:
         self.angular_acc = pi / 180 * angular_acc #degrees / millisecond^2 -> radians / millisecond^2
         self.dir_vec = pg.Vector2(1.0, 0.0)
 
-        self.acceleration = acceleration #in meters / millisecond^2
-        self.mass = mass
+        self._weapon = weapon
+
+        self._thrust = thrust
+        self._hull_mass = mass #mass of ship without any weapons, utilities and upgrades
+        self._mass = mass + weapon.mass
+        self.acceleration = thrust / self._mass #in meters / millisecond^2
         self.health = health
         self.max_capacity = capacitor
         self.capacitor = capacitor
         self.charge_rate = charge_rate
-        self.weapon = weapon
 
         self.shoot_cool_down = 0
         
@@ -95,13 +98,13 @@ class Ship:
     
     def shoot(self):
         if self.shoot_cool_down == 0:
-            if self.capacitor >= self.weapon.power_usage:
+            if self.capacitor >= self._weapon.power_usage:
                 self.projectiles.append(Proj(self)) #spawn projectile
-                self.shoot_cool_down = self.weapon.delay
-                self.capacitor -= self.weapon.power_usage
+                self.shoot_cool_down = self._weapon.delay
+                self.capacitor -= self._weapon.power_usage
 
                 #recoil
-                self.vel -= self.weapon.speed * self.weapon.mass / self.mass * self.dir_vec
+                self.vel -= self._weapon.speed * self._weapon.projectile_mass / self.mass * self.dir_vec
             else: self.stun_timer = STUN_DURATION
 
     def take_damage(self, weapon):
@@ -162,3 +165,39 @@ class Ship:
                     attacker.projectiles.remove(proj)
                     return True
         return False
+    
+    @property
+    def mass(self):
+        return self._mass
+    
+    @mass.setter
+    def mass(self, val):
+        self._mass = val
+        self.acceleration = self._thrust / self._mass #recalculate acceleration when mass is assigned a new value
+    
+    @property
+    def hull_mass(self):
+        return self._hull_mass
+    
+    @hull_mass.setter
+    def hull_mass(self, val):
+        self._hull_mass = val
+        self.mass = self._hull_mass + self._weapon.mass #notice there is no _ before mass. this means mass.setter will be called so that the acceleration is recalculated
+    
+    @property
+    def thrust(self):
+        return self._thrust
+    
+    @thrust.setter
+    def thrust(self, val):
+        self._thrust = val
+        self.acceleration = self._thrust / self._mass #recalculate acceleration when mass is assigned a new value
+    
+    @property
+    def weapon(self):
+        return self._weapon
+    
+    @weapon.setter
+    def weapon(self, val):
+        self._weapon = val
+        self.mass = self._hull_mass + val.mass #notice there is no _ before mass. this means mass.setter will be called so that the acceleration is recalculated

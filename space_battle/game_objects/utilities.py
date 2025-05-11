@@ -1,9 +1,10 @@
 from settings import *
 
 class Utility:
-    def __init__(self, name, player_imobile_during_operation):
+    def __init__(self, name, mass, player_imobile_during_operation):
         self.active = False
         self.name = name
+        self.mass = mass
         self.player_imobile_during_operation = player_imobile_during_operation
     
     def toggle(self, player):
@@ -12,7 +13,7 @@ class Utility:
 
 class Repairer(Utility):
     def __init__(self):
-        super().__init__("repairer", True)
+        super().__init__("repairer", 6.3, True)
         self.repair_amount = 1
         self.interval = 4500
         self.capacitor_usage = 22.0
@@ -24,7 +25,8 @@ class Repairer(Utility):
             f"repair amount: {self.repair_amount}",
             f"repair interval: {self.interval / 1000}s",
             f"capacitor usage: {self.capacitor_usage}MJ",
-            f"wattage: {self.capacitor_usage / self.interval * 1000}MW"
+            f"mass: {self.mass}tonnes",
+            f"wattage: {round(self.capacitor_usage / self.interval * 1000, 3)}MW"
         ]
     
     def update(self, player, delta_t):

@@ -4,7 +4,7 @@
         "health": 21,
         "capacitor": 570.0,
         "charge_rate": 0.0462,
-        "acceleration": 0.000018,
+        "thrust": 0.0023310,
         "angular_acc": 0.000054,
         "mass": 129.5,
         "dimensions": {
@@ -22,7 +22,7 @@
         "health": 15,
         "capacitor": 380.0,
         "charge_rate": 0.0297,
-        "acceleration": 0.000053,
+        "thrust": 0.0024221,
         "angular_acc": 0.000095,
         "mass": 45.7,
         "dimensions": {
@@ -39,7 +39,7 @@
         "health": 64,
         "capacitor": 900.0,
         "charge_rate": 0.0711,
-        "acceleration": 0.000006,
+        "thrust": 0.0027666,
         "angular_acc": 0.000018,
         "mass": 461.1,
         "dimensions": {
@@ -57,7 +57,7 @@
         "health": 35,
         "capacitor": 860.0,
         "charge_rate": 0.0546,
-        "acceleration": 0.000009,
+        "thrust": 0.0024507,
         "angular_acc": 0.000032,
         "mass": 272.3,
         "dimensions": {
@@ -75,7 +75,7 @@
         "health": 47,
         "capacitor": 410.0,
         "charge_rate": 0.0213,
-        "acceleration": 0.000013,
+        "thrust": 0.0043602,
         "angular_acc": 0.000028,
         "mass": 335.4,
         "dimensions": {

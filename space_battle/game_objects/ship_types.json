@@ -4,7 +4,7 @@
         "health": 34,
         "capacitor": 460.0,
         "charge_rate": 0.0224,
-        "acceleration": 0.000042,
+        "thrust": 0.0022512,
         "angular_acc": 0.000060,
         "mass": 53.6,
         "dimensions": {
@@ -27,7 +27,7 @@
         "health": 45,
         "capacitor": 590.0,
         "charge_rate": 0.0286,
-        "acceleration": 0.000021,
+        "thrust": 0.0026292,
         "angular_acc": 0.000051,
         "mass": 125.2,
         "dimensions": {
@@ -48,7 +48,7 @@
         "health": 19,
         "capacitor": 400.0,
         "charge_rate": 0.0188,
-        "acceleration": 0.000063,
+        "thrust": 0.0024444,
         "angular_acc": 0.000087,
         "mass": 38.8,
         "dimensions": {

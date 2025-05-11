@@ -8,7 +8,8 @@
         "delay": 630,
         "range": 2450,
         "power_usage": 28.0,
-        "mass": 0.051
+        "mass": 2.7,
+        "projectile_mass": 0.051
     },
     {
         "name": "explosive launcher type A",
@@ -19,7 +20,8 @@
         "delay": 1560,
         "range": 3800,
         "power_usage": 55.0,
-        "mass": 0.159
+        "mass": 14.4,
+        "projectile_mass": 0.159
     },
     {
         "name": "plasma short-range",
@@ -30,7 +32,8 @@
         "delay": 390,
         "range": 1730,
         "power_usage": 21.0,
-        "mass": 0.004
+        "mass": 3.2,
+        "projectile_mass": 0.004
     },
     {
         "name": "kinetic railgun",
@@ -41,7 +44,8 @@
         "delay": 280,
         "range": 4120,
         "power_usage": 11.0,
-        "mass": 0.005
+        "mass": 1.1,
+        "projectile_mass": 0.005
     },
     {
         "name": "plasma accelerator",
@@ -52,7 +56,8 @@
         "delay": 3740,
         "range": 2860,
         "power_usage": 194.0,
-        "mass": 0.0002
+        "mass": 24.6,
+        "projectile_mass": 0.0002
     },
     {
         "name": "radioactive B",
@@ -63,7 +68,8 @@
         "delay": 1440,
         "range": 2050,
         "power_usage": 25.0,
-        "mass": 0.077
+        "mass": 2.3,
+        "projectile_mass": 0.077
     },
     {
         "name": "plasma mid-range",
@@ -74,7 +80,8 @@
         "delay": 810,
         "range": 3150,
         "power_usage": 19.0,
-        "mass": 0.008
+        "mass": 2.9,
+        "projectile_mass": 0.008
     },
     {
         "name": "explosive launcher type B",
@@ -85,6 +92,7 @@
         "delay": 1830,
         "range": 6600,
         "power_usage": 50.0,
-        "mass": 0.442
+        "mass": 19.2,
+        "projectile_mass": 0.442
     }
 ]

@@ -75,7 +75,7 @@ class Station:
             weapon = self.weapon_options[i]
 
             button.update(app.window, app.lmb_pressed)
-            if button.pressed: player.weapon = self.weapon_options[i] #change weapon
+            if button.pressed: player.weapon = weapon #change weapon
             if button.hovered: self.show_weapon_info(weapon)
         
         for i in range(len(self.ship_options)):
@@ -110,7 +110,8 @@ class Station:
             f"shoot delay: {weapon.delay / 1000}s",
             f"capacitor usage: {weapon.power_usage}MJ/shot",
             f"wattage: {round(weapon.power_usage / weapon.delay * 1000, 3)}MW",
-            f"projectile mass: {weapon.mass} tonnes"
+            f"mass: {weapon.mass} tonnes",
+            f"projectile mass: {weapon.projectile_mass} tonnes"
         ]
     
     def show_ship_info(self, ship):
@@ -118,7 +119,7 @@ class Station:
             "health: " + str(ship["health"]),
             "capacitor: " + str(ship["capacitor"]) + "MJ",
             "capacitor charge rate: " + str(ship["charge_rate"] * 1000) + "MW",
-            "acceleration: " + str(ship["acceleration"] * 1000000) + "m/s^2",
+            "thrust: " + str(round(ship["thrust"] * 1000000, 1)) + "kN",
             "angular acceleration: " + str(ship["angular_acc"] * 1000000) + "deg/s^2",
             "mass: " + str(ship["mass"]) + "tonnes",
             "dimensions:",
@@ -140,11 +141,11 @@ class Station:
 
         player.charge_rate = ship["charge_rate"]
 
-        player.acceleration = ship["acceleration"]
+        player.thrust = ship["thrust"]
 
         player.angular_acc = pi / 180 * ship["angular_acc"]
 
-        player.mass = ship["mass"]
+        player.hull_mass = ship["mass"]
 
         player.hitbox_semi_length = ship["dimensions"]["semi_length"]
         player.hitbox_semi_width = ship["dimensions"]["semi_width"]

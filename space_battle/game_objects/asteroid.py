@@ -50,7 +50,7 @@ class Asteroid:
             rel_vel = proj.vel - self.vel
             
             if rel_pos.magnitude_squared() <= self.radius * self.radius: #has the projectile touched the asteroid?
-                self.vel += rel_vel * proj.weapon.mass / self.mass
+                self.vel += rel_vel * proj.weapon.projectile_mass / self.mass
                 
                 ship.projectiles.remove(proj)
         
