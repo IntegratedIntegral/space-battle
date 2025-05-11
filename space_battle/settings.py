@@ -52,7 +52,7 @@ BATTLE_SITE_ENEMY_SHIP_TYPES = {
 }
 BATTLE_SITE_ENEMY_WEAPON_TYPES = {
     "explosives test site": ["explosive launcher type A", "explosive launcher type B"],
-    "lightweight fleet": ["radioactive A", "plasma short-range", "plasma mid-range", "kinetic railgun"],
+    "lightweight fleet": ["radioactive A", "plasma short-range", "plasma mid-range"],
     "heavily armoured fleet": ["explosive launcher type A", "radioactive B", "plasma short-range", "kinetic railgun"]
 }
 

@@ -1,7 +1,7 @@
-import os
 import json
 from settings import *
 from world_objects import WorldObjects
+from main_menu import MainMenu
 from pause_menu import PauseMenu
 from locations_menu import LocationsMenu
 from image_loader import ImageLoader
@@ -25,6 +25,9 @@ class Main:
         
         self.clock = pg.time.Clock()
         self.delta_t = 0
+
+        self.main_menu = MainMenu()
+        self.mainmenu_active = True
 
         self.pause_menu = PauseMenu()
         self.pause = False
@@ -67,7 +70,7 @@ class Main:
                 pg.display.toggle_fullscreen()
     
     def peform_actions(self):
-        if self.key_state_just_pressed[pg.K_ESCAPE]:
+        if self.key_state_just_pressed[pg.K_ESCAPE] and not self.mainmenu_active:
             self.pause = not self.pause #pause/unpause
             if self.pause: self.pause_bg = self.window.copy()
         
@@ -83,21 +86,25 @@ class Main:
             self.check_events()
             self.peform_actions()
             
-            if self.pause:
+            if self.mainmenu_active:
+                #main menu
+                self.window.fill((0, 0, 0))
+                self.main_menu.update(self)
+            elif self.pause:
+                #paused
                 self.window.blit(self.pause_bg, (0, 0))
                 self.pause_menu.update(self)
             elif self.locationsmenu_active:
+                #locations menu
                 self.window.blit(self.pause_bg, (0, 0))
                 self.locations_menu.update(self)
             else:
+                #game
                 self.window.blit(self.image_loader.bg_images[self.world_objects.bg_image_id], (0, 0)) #draw background
                 self.world_objects.update(self.delta_t)
-                if self.world_objects.player.docked: self.world_objects.station.update_ui(self, self.world_objects.player)
-            
-            self.ui.draw(self.window, self.world_objects.camera)
-
-            if not self.pause:
+                self.ui.draw(self.window, self.world_objects.camera)
                 self.mini_map.update(self.key_state_pressed, self.key_state_just_pressed, self.scroll_forward, self.scroll_back)
+                if self.world_objects.player.docked: self.world_objects.station.update_ui(self, self.world_objects.player)
 
             pg.display.flip()
 

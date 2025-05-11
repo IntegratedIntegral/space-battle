@@ -4,10 +4,11 @@ from info_panel import InfoPanel
 
 class PauseMenu:
     def __init__(self):
-        self.button_size = (150, 50)
-        window_center_x = WINDOW_SEMI_WIDTH - self.button_size[0] / 2
-        self.quit_button = Button((window_center_x, 600), self.button_size, "quit")
-        self.key_bindings_button = Button((window_center_x, 530), self.button_size, "show key bindings")
+        button_size = (150, 50)
+        window_center_x = WINDOW_SEMI_WIDTH - button_size[0] // 2
+        self.resume_button = Button((window_center_x, 530), button_size, "resume")
+        self.key_bindings_button = Button((window_center_x, 600), button_size, "show key bindings")
+        self.exit_button = Button((window_center_x, 670), button_size, "exit to main menu")
 
         self.key_bindings_text_rows = [
             "pause: ESC",
@@ -15,7 +16,7 @@ class PauseMenu:
             "deccelerate: S",
             "pull left: A",
             "pull right: D",
-            "stability assist: SHIFT",
+            "kill rotation: SHIFT",
             "shoot: X",
             "toggle map: M",
             "dock: C",
@@ -31,11 +32,16 @@ class PauseMenu:
         self.show_key_bindings = False
     
     def update(self, app):
-        self.quit_button.update(app.window, app.lmb_pressed)
+        self.resume_button.update(app.window, app.lmb_pressed)
         self.key_bindings_button.update(app.window, app.lmb_pressed)
+        self.exit_button.update(app.window, app.lmb_pressed)
 
-        if self.quit_button.pressed: app.running = False
-        
-        elif self.key_bindings_button.just_pressed: self.show_key_bindings = not self.show_key_bindings
+        if self.resume_button.just_pressed: app.pause = False
+
+        if self.key_bindings_button.just_pressed: self.show_key_bindings = not self.show_key_bindings
+
+        if self.exit_button.pressed:
+            app.mainmenu_active = True
+            app.pause = False
         
         if self.show_key_bindings: self.key_bindings_info_box.base_draw(app.window, self.key_bindings_text_rows)

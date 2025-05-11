@@ -31,8 +31,9 @@ class UI:
             info_panel.draw(window, self.player)
         self.player_info_panel.base_draw(window, [
             f"health: {self.player.health}",
-            f"capacitor: {int(self.player.capacitor)}MJ",
-            f"speed: {int(self.player.vel.magnitude() * 1000)}m/s",
+            f"capacitor: {round(self.player.capacitor)}MJ",
+            f"acceleration: {round(self.player.acceleration * 1000000, 1)}m/s^2",
+            f"speed: {round(self.player.vel.magnitude() * 1000)}m/s",
             "weapon: ",
             f"  damage: {self.player.weapon.damage}",
             f"  range: {self.player.weapon.range}m"
