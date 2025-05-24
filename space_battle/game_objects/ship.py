@@ -3,7 +3,7 @@ from game_objects.explosion import Explosion
 from game_objects.projectile import Proj
 
 class Ship:
-    def __init__(self, pos, health, capacitor, charge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, ship_img_id, image_loader, thruster_data, thruster_type):
+    def __init__(self, pos, health, capacitor, charge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, name, image_loader, thruster_data, thruster_type):
         self.pos = pg.Vector2(pos)
         self.vel = pg.Vector2(0)
         self.direction = 0
@@ -35,10 +35,12 @@ class Ship:
 
         self.is_acc = False
         
-        self.template_image = image_loader.ships[ship_img_id]
+        self.template_image = image_loader.ships[name]
         self.template_image = pg.transform.scale(self.template_image, (2 * hitbox_semi_length, 2 * hitbox_semi_width))
         self.thruster_flame_image = image_loader.thruster_flames[thruster_type]
         self.thruster_data = thruster_data
+
+        self.ship_type = name
     
     def update_pos(self, delta_t):
         self.pos += self.vel * delta_t

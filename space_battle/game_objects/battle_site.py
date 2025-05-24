@@ -7,33 +7,36 @@ from random import random, randint
 
 
 class BattleSite:
-    def __init__(self, app, pos, enemy_types, weapon_types, difficulty, type):
+    def __init__(self, app, pos, enemy_types, weapon_types, difficulty, type, complete):
         self.app = app
-        self.get_ready_timer = GET_READY_DURATION
 
         self.pos = pg.Vector2(pos)
 
-        self.fire_works = [
-            FireWork(),
-            FireWork(),
-            FireWork()
-        ]
-        self.fire_work_time = 0
+        self.complete = complete
 
         self.difficulty = difficulty
         self.type = type
 
-        self.enemy_waves = self.generate_enemy_waves(weapon_types)
-        self.enemy_types = enemy_types
-        self.level = 0
-        self.enemies = []
-
-        self.hlthUps = []
-
         self.asteroids = []
         self.spawn_asteroids()
 
-        self.complete = False
+        self.hlthUps = []
+
+        self.enemies = []
+
+        if not self.complete:
+            self.get_ready_timer = GET_READY_DURATION
+
+            self.fire_works = [
+                FireWork(),
+                FireWork(),
+                FireWork()
+            ]
+            self.fire_work_time = 0
+
+            self.enemy_waves = self.generate_enemy_waves(weapon_types)
+            self.enemy_types = enemy_types
+            self.level = 0
     
     def generate_enemy_waves(self, weapon_types):
         enemy_count = BATTLE_SITE_WAVE_SIZE[self.difficulty]
@@ -142,10 +145,11 @@ class BattleSite:
         for a in self.asteroids:
             a.update(self.app.window, camera, self.enemies + [player], self, delta_t)
         
-        #ENEMIES
-        self.update_enemies(delta_t, player, camera, is_active)
-        
-        self.check_end(delta_t, is_active)
+        if not self.complete:
+            #ENEMIES
+            self.update_enemies(delta_t, player, camera, is_active)
+            
+            self.check_end(delta_t, is_active)
     
     def show_info(self):
-        return "battle site.\ndifficulty: " + self.difficulty + "\ntype: " + self.type
+        return "battle site." + (" (complete)" if self.complete else "") + "\ndifficulty: " + self.difficulty + "\ntype: " + self.type

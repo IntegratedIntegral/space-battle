@@ -155,6 +155,8 @@ class Station:
         player.thruster_data = ship["thruster_data"]
         player.reverse_thruster_data = ship["reverse_thruster_data"]
         player.thruster_flame_image = self.thruster_images[ship["thruster_type"]]
+
+        player.ship_type = ship["name"]
     
     def set_location(self, image_loader, data):
         self.pos = pg.Vector2(data["pos"])

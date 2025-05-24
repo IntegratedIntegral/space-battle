@@ -4,11 +4,10 @@ from settings import *
 from ship_info_panel import ShipInfoPanel
 
 class Enemy(Ship):
-    def __init__(self, pos, health, capacitor, recharge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, ship_img_id, image_loader, thruster_data, thruster_type):
-        super().__init__(pos, health, capacitor, recharge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, ship_img_id, image_loader, thruster_data, thruster_type)
+    def __init__(self, pos, health, capacitor, recharge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, name, image_loader, thruster_data, thruster_type):
+        super().__init__(pos, health, capacitor, recharge_rate, thrust, angular_acc, weapon, mass, hitbox_semi_length, hitbox_semi_width, name, image_loader, thruster_data, thruster_type)
         self.behaviour_timer = ENEMY_BEHAVIOUR_TIMER_DURATION
         self.phase_change = randint(ENEMY_BEHAVIOUR_TIMER_DURATION // 3, ENEMY_BEHAVIOUR_TIMER_DURATION * 2 // 3)
-        self.ship_type = ship_img_id
 
         self.info_panel = ShipInfoPanel(self)
     
