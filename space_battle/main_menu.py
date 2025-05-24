@@ -12,8 +12,11 @@ class MainMenu:
         self.play_button.update(app.window, app.lmb_pressed)
         self.quit_button.update(app.window, app.lmb_pressed)
 
-        if self.play_button.pressed:
+        if self.play_button.just_pressed:
             pg.mouse.get_rel() #I don't really like this line. I added it because the camera would jump to some weird focus position when you pressed play
             app.mainmenu_active = False
+            app.savemenu_active = True
+            app.save_menu.update_button_text()
+            #app.lmb_pressed = False
 
-        if self.quit_button.pressed: app.running = False
+        if self.quit_button.just_pressed: app.running = False

@@ -70,7 +70,7 @@ class MiniMap:
         
         for bs in self.world_objects.battle_sites:
             #draw battle sites
-            self.draw_on_map(bs, (57, 57, 57), self.world_objects.camera.focus_pos, self.scale * BATTLE_SITE_RADIUS)
+            self.draw_on_map(bs, (46, 103, 77) if bs.complete else (57, 57, 57), self.world_objects.camera.focus_pos, self.scale * BATTLE_SITE_RADIUS)
 
             for ene in bs.enemies:
                 #draw enemies

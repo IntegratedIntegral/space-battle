@@ -1,12 +1,13 @@
-import json
 from settings import *
 from world_objects import WorldObjects
 from main_menu import MainMenu
+from save_menu import SaveMenu
 from pause_menu import PauseMenu
 from locations_menu import LocationsMenu
 from image_loader import ImageLoader
 from ui import UI
 from mini_map import MiniMap
+from game_objects.weapon import Weapon
 
 class Main:
     def __init__(self):
@@ -17,17 +18,26 @@ class Main:
 
         self.image_loader = ImageLoader()
 
-        with open("locations.json") as file: self.locations = json.load(file)
+        with open(join("locations.json")) as file: self.locations = json.load(file)
+        with open(join("game_objects", "ship_types.json")) as file: self.ship_types = json.load(file)
+        with open(join("game_objects", "enemy_types.json")) as file: self.enemy_types = json.load(file)
+        self.weapon_types = self.load_weapons(self.image_loader.projectiles)
 
-        self.world_objects = WorldObjects(self, self.locations[0])
+        self.save_data: dict = None
+        self.world_objects: WorldObjects = None
 
-        self.mini_map = MiniMap(self.world_objects)
+        self.mini_map: MiniMap = None
+
+        self.ui: UI = None
         
         self.clock = pg.time.Clock()
         self.delta_t = 0
 
         self.main_menu = MainMenu()
         self.mainmenu_active = True
+
+        self.save_menu = SaveMenu()
+        self.savemenu_active = False
 
         self.pause_menu = PauseMenu()
         self.pause = False
@@ -36,8 +46,6 @@ class Main:
         self.locationsmenu_active = False
 
         self.pause_bg = pg.surface.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-
-        self.ui = UI(self.world_objects.player)
 
         self.lmb_pressed = False
         self.scroll_forward = False
@@ -64,6 +72,7 @@ class Main:
                 self.lmb_pressed = False
             
             elif event.type == pg.QUIT:
+                self.world_objects.save()
                 self.running = False
             
             elif event.type == pg.FULLSCREEN:
@@ -74,9 +83,25 @@ class Main:
             self.pause = not self.pause #pause/unpause
             if self.pause: self.pause_bg = self.window.copy()
         
-        if self.key_state_just_pressed[pg.K_t] and not self.pause:
+        if self.key_state_just_pressed[pg.K_t] and not (self.pause or self.mainmenu_active or self.savemenu_active) :
             self.locationsmenu_active = not self.locationsmenu_active
             if self.locationsmenu_active: self.pause_bg = self.window.copy()
+    
+    @staticmethod
+    def load_weapons(images):
+        weapons = []
+        with open(join("game_objects", "weapon_types.json")) as file:
+            data = json.load(file)
+            for w in data:
+                weapons.append(Weapon(w["name"], w["damage"], w["electronic_damage"], w["speed"], w["delay"], w["range"], w["power_usage"], w["mass"], w["projectile_mass"], images[w["image_id"]]))
+        return weapons
+
+    def load_world(self, save_data, save_name):
+        self.save_data = save_data
+        self.world_objects = WorldObjects(self, save_data, save_name)
+        self.mini_map = MiniMap(self.world_objects)
+        self.ui = UI(self.world_objects.player)
+        self.savemenu_active = False
     
     def run(self):
         while self.running:
@@ -90,6 +115,9 @@ class Main:
                 #main menu
                 self.window.fill((0, 0, 0))
                 self.main_menu.update(self)
+            elif self.savemenu_active:
+                self.window.fill((0, 0, 0))
+                self.save_menu.update(self)
             elif self.pause:
                 #paused
                 self.window.blit(self.pause_bg, (0, 0))

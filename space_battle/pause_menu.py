@@ -40,8 +40,10 @@ class PauseMenu:
 
         if self.key_bindings_button.just_pressed: self.show_key_bindings = not self.show_key_bindings
 
-        if self.exit_button.pressed:
+        if self.exit_button.just_pressed:
+            app.world_objects.save()
             app.mainmenu_active = True
             app.pause = False
+            app.locationsmenu_active = False
         
         if self.show_key_bindings: self.key_bindings_info_box.base_draw(app.window, self.key_bindings_text_rows)
