@@ -48,7 +48,8 @@ class ImageLoader:
         #bg images
         self.bg_images = {
             "earth_bg_new": self.load_bg("earth_bg_new"),
-            "moon_bg": self.load_bg("moon_bg")
+            "moon_bg": self.load_bg("moon_bg"),
+            "mars_bg": self.load_bg("mars_bg")
         }
 
     @staticmethod

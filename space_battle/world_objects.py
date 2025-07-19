@@ -21,6 +21,8 @@ class WorldObjects:
                              self.get_ship_type_by_name(save_data["ship_name"]),
                              self.get_weapon_type_by_name(save_data["weapon_name"]),
                              app.image_loader)
+        if save_data["vel"]: self.player.vel = pg.Vector2(save_data["vel"])
+        if save_data["health"]: self.player.health = save_data["health"]
 
         self.battle_sites = self.generate_battle_sites(self.active_location["battle_sites"], save_data["battle_site_progress"][self.active_location["name"]])
 
@@ -32,9 +34,8 @@ class WorldObjects:
     
     def generate_battle_sites(self, data, progress_data):
         battle_sites = []
-        for i in range(len(data)):
-            bs_data = data[i]
-            complete = progress_data[i]
+        for i, bs_data in enumerate(data):
+            complete = progress_data[i] if i < len(progress_data) else False
             battle_sites.append(BattleSite(self.app, bs_data["pos"], self.app.enemy_types, self.app.weapon_types, bs_data["difficulty"], bs_data["type"], complete))
         return battle_sites
     
@@ -64,7 +65,7 @@ class WorldObjects:
         elif self.player.explosion.time < EXPLOSION_TIME:
             self.player.explosion.explode(self.app.window, delta_t, self.camera)
         
-        else: self.app.running = False
+        else: self.app.load_world(self.app.save_data, self.save_name)
     
     def camera_control(self):
         if not self.player.docked:
@@ -99,10 +100,14 @@ class WorldObjects:
 
         self.app.save_data["battle_site_progress"][self.active_location["name"]] = self.get_bs_progress_for_active_location()
 
-        self.battle_sites = self.generate_battle_sites(location["battle_sites"], save_data["battle_site_progress"][location["name"]])
+        if location["name"] in save_data["battle_site_progress"]: battle_site_progress = save_data["battle_site_progress"][location["name"]]
+        else: battle_site_progress = [False for _ in range(len(location["battle_sites"]))]
+        
+        self.battle_sites = self.generate_battle_sites(location["battle_sites"], battle_site_progress)
 
         self.bg_image_id = location["bg_image"]
         self.active_location = location
+        self.save()
     
     def get_ship_type_by_name(self, ship_name):
         for ship_type in self.app.ship_types:
@@ -122,6 +127,8 @@ class WorldObjects:
             "ship_name": self.player.ship_type,
             "weapon_name": self.player.weapon.name,
             "pos": list(self.player.pos),
+            "vel": list(self.player.vel),
+            "health": self.player.health,
             "battle_site_progress": self.app.save_data["battle_site_progress"]
         }
         save_data["battle_site_progress"][self.active_location["name"]] = self.get_bs_progress_for_active_location()

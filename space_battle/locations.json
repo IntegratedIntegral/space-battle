@@ -1,6 +1,7 @@
 [
     {
         "name": "Earth",
+        "description": "this is earth",
         "bg_image": "earth_bg_new",
         "start_pos": [19919, 10553],
         "battle_sites": [
@@ -35,6 +36,7 @@
     },
     {
         "name": "The Moon",
+        "description": "tonight we will steal the Moon!!!!!!!",
         "bg_image": "moon_bg",
         "start_pos": [55892, 40165],
         "battle_sites": [
@@ -61,6 +63,36 @@
         ],
         "station": {
             "pos": [55892, 41065],
+            "image_id": "moon_station",
+            "size": [1600, 900],
+            "mosaic_splitting": [4, 3],
+            "exit_pos": [-100, -400]
+        }
+    },
+    {
+        "name": "Mars",
+        "description": "a red planet",
+        "bg_image": "mars_bg",
+        "start_pos": [26334, 32208],
+        "battle_sites": [
+            {
+                "pos": [45215, 26743],
+                "difficulty": "easy",
+                "type": "heavily armoured fleet"
+            },
+            {
+                "pos": [20360,  7713],
+                "difficulty": "easy",
+                "type": "heavily armoured fleet"
+            },
+            {
+                "pos": [56542, 58107],
+                "difficulty": "hard",
+                "type": "explosives test site"
+            }
+        ],
+        "station": {
+            "pos": [27134, 32808],
             "image_id": "moon_station",
             "size": [1600, 900],
             "mosaic_splitting": [4, 3],
